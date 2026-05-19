@@ -1,91 +1,52 @@
-// Biblioteca para entrada y salida estándar.
 #include <iostream> // Permite usar cout (mostrar en pantalla) y cin (leer desde teclado).
-
-// Biblioteca para manejo de archivos.
 #include <fstream> // Permite usar ifstream (lectura) y ofstream (escritura).
-
-// Biblioteca que define la clase string.
 #include <string> // Facilita el manejo de cadenas de texto.
-
-// Biblioteca para usar stringstream.
 #include <sstream> // Permite dividir y procesar cadenas como si fueran flujos de datos.
 
-// Evita escribir std:: antes de cout, cin, string, etc.
-using namespace std;
+using namespace std; // Evita escribir std:: antes de cout, cin, string, etc.
 
-// -----------------------------------------------------------------------------
-// ESTRUCTURA ESTUDIANTE
-// -----------------------------------------------------------------------------
-// Define un nodo de la lista enlazada.
-// Cada nodo almacena los datos de un estudiante y un puntero al siguiente nodo.
+//ESTRUCTURA ESTUDIANTE
+// Define un nodo de la lista enlazada. // Cada nodo almacena los datos de un estudiante y un puntero al siguiente nodo
 struct Estudiante {
-    int id;                 // Identificador único del estudiante.
-    string nombre;          // Nombre completo.
-    string correo;          // Correo electrónico.
-    string escuela;         // Escuela profesional.
-    int anioIngreso;        // Año en que ingresó a la universidad.
-
-    // Puntero al siguiente nodo de la lista.
-    // Si es el último nodo, este puntero será nullptr.
-    Estudiante* siguiente;
+    int id;  // Identificador único del estudiante.
+    string nombre;          
+    string correo;          
+    string escuela;   // Escuela profesional.
+    int anioIngreso;        
+    
+    Estudiante* siguiente; // Puntero al siguiente nodo de la lista. // Si es el último nodo, este puntero será nullptr.
 };
 
 // POO - Utilizamos el Paradigma de Programación Orientada a Objetos 
-// -----------------------------------------------------------------------------
-// CLASE ListaEstudiantes
-// -----------------------------------------------------------------------------
-// Administra la lista enlazada de estudiantes y todas las operaciones.
+// CLASE ListaEstudiantes  // Administra la lista enlazada de estudiantes y todas las operaciones.
 class ListaEstudiantes {
 private:
-    // Puntero al primer nodo de la lista.
-    // Si la lista está vacía, vale nullptr.
-    Estudiante* cabeza;
-
-    // Variable que guarda el próximo ID a asignar automáticamente.
-    int siguienteId;
+    Estudiante* cabeza; // Puntero al primer nodo de la lista. // Si la lista está vacía, vale nullptr.
+    int siguienteId; // Variable que guarda el próximo ID a asignar automáticamente.
 
 public:
-    // -------------------------------------------------------------------------
     // CONSTRUCTOR
-    // -------------------------------------------------------------------------
-    // Inicializa una lista vacía.
-    ListaEstudiantes() {
+    ListaEstudiantes() { // Inicializa una lista vacía.
         cabeza = nullptr;   // No hay nodos al inicio.
         siguienteId = 1;    // El primer estudiante tendrá ID 1.
     }
 
-    // -------------------------------------------------------------------------
     // DESTRUCTOR
-    // -------------------------------------------------------------------------
-    // Libera toda la memoria reservada dinámicamente con new.
     ~ListaEstudiantes() {
-        // Comenzamos desde la cabeza.
-        Estudiante* actual = cabeza;
-
-        // Recorremos toda la lista.
-        while (actual != nullptr) {
-            // Guardamos el nodo actual para eliminarlo.
-            Estudiante* aBorrar = actual;
-
-            // Avanzamos al siguiente nodo.
-            actual = actual->siguiente;
-
-            // Liberamos la memoria del nodo.
-            delete aBorrar;
+        Estudiante* actual = cabeza;  // Comenzamos desde la cabeza.
+        while (actual != nullptr) { // Recorremos toda la lista.
+            Estudiante* aBorrar = actual;  // Guardamos el nodo actual para eliminarlo.
+            actual = actual->siguiente;  // Avanzamos al siguiente nodo.
+            delete aBorrar;  // Liberamos la memoria del nodo.
         }
     }
 
-    // -------------------------------------------------------------------------
     // AGREGAR ESTUDIANTE
-    // -------------------------------------------------------------------------
     void agregarEstudiante(string nombre, string correo,
                            string escuela, int anioIngreso) {
 
-        // Reservamos memoria para un nuevo nodo.
-        Estudiante* nuevo = new Estudiante;
-
-        // Asignamos un ID único y luego incrementamos el contador.
-        nuevo->id = siguienteId++;
+        Estudiante* nuevo = new Estudiante;  // Reservamos memoria para un nuevo nodo.
+        nuevo->id = siguienteId++;  // Asignamos un ID único y luego incrementamos el contador.
 
         // Copiamos los datos recibidos.
         nuevo->nombre = nombre;
@@ -117,9 +78,7 @@ public:
              << nuevo->id << endl;
     }
 
-    // -------------------------------------------------------------------------
     // MOSTRAR TODOS LOS ESTUDIANTES
-    // -------------------------------------------------------------------------
     void mostrarEstudiantes() {
 
         // Si la lista está vacía.
@@ -148,9 +107,7 @@ public:
         }
     }
 
-    // -------------------------------------------------------------------------
     // BUSCAR ESTUDIANTE POR ID
-    // -------------------------------------------------------------------------
     void buscarEstudiante(int id) {
 
         // Iniciamos desde la cabeza.
@@ -182,9 +139,7 @@ public:
              << " no encontrado." << endl;
     }
 
-    // -------------------------------------------------------------------------
-    // BUSCAR ESTUDIANTE POR NOMBRE (sobrecarga de función)
-    // -------------------------------------------------------------------------
+    // BUSCAR ESTUDIANTE POR NOMBRE
     void buscarEstudiante(string nombre) {
 
         // Comenzamos desde la cabeza.
@@ -223,9 +178,7 @@ public:
         }
     }
 
-    // -------------------------------------------------------------------------
     // MODIFICAR ESTUDIANTE
-    // -------------------------------------------------------------------------
     void modificarEstudiante(int id) {
 
         // Empezamos desde la cabeza.
@@ -303,9 +256,7 @@ public:
              << " no encontrado." << endl;
     }
 
-    // -------------------------------------------------------------------------
     // ELIMINAR ESTUDIANTE
-    // -------------------------------------------------------------------------
     void eliminarEstudiante(int id) {
 
         // Si la lista está vacía.
@@ -357,14 +308,9 @@ public:
         }
     }
 
-    // -------------------------------------------------------------------------
     // GUARDAR EN ARCHIVO
-    // -------------------------------------------------------------------------
     void guardarEnArchivo(string filename) {
-
-        // Abrimos el archivo en modo escritura.
-        // Si existe, su contenido se reemplaza.
-        ofstream archivo(filename);
+        ofstream archivo(filename); // Abrimos el archivo en modo escritura por eso el ofstream. // Si existe, su contenido se reemplaza.
 
         // Verificamos si se abrió correctamente.
         if (!archivo.is_open()) {
@@ -379,7 +325,7 @@ public:
 
             // Guardamos los datos separados por '|'.
             // Ejemplo:
-            // 1|Juan Perez|juan@correo.com|Ingenieria|2023
+            // Forma en que se va a guardar >>>   1|Juan Perez|juan@correo.com|Ingenieria|2023
             archivo << actual->id << "|"
                     << actual->nombre << "|"
                     << actual->correo << "|"
@@ -398,9 +344,7 @@ public:
              << " exitosamente." << endl;
     }
 
-    // -------------------------------------------------------------------------
     // CARGAR DESDE ARCHIVO
-    // -------------------------------------------------------------------------
     void cargarDesdeArchivo(string filename) {
 
         // Abrimos el archivo para lectura.
@@ -417,9 +361,7 @@ public:
         // Guardará el ID máximo encontrado.
         int maxId = 0;
 
-        // ---------------------------------------------------------------------
         // Limpiar la lista actual antes de cargar.
-        // ---------------------------------------------------------------------
         while (cabeza != nullptr) {
             Estudiante* aBorrar = cabeza;
             cabeza = cabeza->siguiente;
@@ -485,9 +427,7 @@ public:
     }
 };
 
-// -----------------------------------------------------------------------------
 // MOSTRAR MENÚ PRINCIPAL
-// -----------------------------------------------------------------------------
 void mostrarMenu() {
     cout << "\n=== SISTEMA DE REGISTRO DE ESTUDIANTES ===" << endl;
     cout << "1. Agregar nuevo estudiante" << endl;
@@ -501,9 +441,7 @@ void mostrarMenu() {
     cout << "Seleccione una opcion: ";
 }
 
-// -----------------------------------------------------------------------------
 // FUNCIÓN PRINCIPAL
-// -----------------------------------------------------------------------------
 int main() {
 
     // Creamos el objeto que administrará la lista.
